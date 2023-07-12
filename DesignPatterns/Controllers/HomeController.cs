@@ -35,14 +35,33 @@ namespace DesignPatterns.Controllers
         [HttpGet]
         public IActionResult AddMustang()
         {
-            _vehicleRepository.AddVehicle(new Car("red","Ford","Mustang"));
+            VehicleFact factory = new VehicleFact();
+            Vehicle vehicle = factory.CreateVehicle("");
+            vehicle.Color = "Color";
+            _vehicleRepository.AddVehicle(vehicle);
+
+            ICollection<Vehicle> vehicles = _vehicleRepository.GetVehicles();
+
+            foreach (Vehicle v in vehicles)
+            {
+                Debug.WriteLine("Vehicle: " + v.Color);
+            }
+
             return Redirect("/");
         }
+
 
         [HttpGet]
         public IActionResult AddExplorer()
         {
-            _vehicleRepository.AddVehicle(new Car("red", "Ford", "Explorer"));
+            _vehicleRepository.AddVehicle(VehicleFact.CreateVehicle("Explorer"));
+            return Redirect("/");
+        }
+
+        [HttpGet]
+        public IActionResult AddEscape()
+        {
+            _vehicleRepository.AddVehicle(VehicleFact.CreateVehicle("Escape"));
             return Redirect("/");
         }
 
